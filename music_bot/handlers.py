@@ -470,7 +470,7 @@ async def song_handler(
         await message.answer("Бот временно на техобслуживании. Попробуй позже.")
         return
 
-    status = await message.answer("✅ Запрос принят.")
+    status = await message.answer("Ищу...")
     job = DownloadJob(
         chat_id=message.chat.id,
         query=query,
@@ -478,7 +478,7 @@ async def song_handler(
         status_message_id=status.message_id,
     )
     try:
-        waiting_ahead = download_queue.enqueue(job)
+        download_queue.enqueue(job)
     except QueueFullError:
         await storage.finish_request(request_id, "queue_full")
         await status.edit_text(
@@ -492,10 +492,5 @@ async def song_handler(
             "Бот перезапускается и временно не принимает запросы. Попробуй позже."
         )
         return
-
-    if waiting_ahead:
-        await message.answer(
-            f"⏳ Запрос в очереди. Перед тобой: {waiting_ahead}."
-        )
 
 

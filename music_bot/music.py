@@ -55,7 +55,11 @@ def search_track(query: str) -> Track:
             try:
                 result = ydl.extract_info(f"{prefix}{query}", download=False)
             except yt_dlp.utils.DownloadError as error:
-                logger.warning("Search failed for %s: %s", prefix, error)
+                logger.warning(
+                    "Search failed for %s; trying the next provider: %s",
+                    prefix,
+                    error,
+                )
                 errors.append(error)
                 continue
 

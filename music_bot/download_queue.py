@@ -118,7 +118,7 @@ class DownloadQueue:
                 self._queue.task_done()
 
     async def _process(self, job: DownloadJob) -> None:
-        await self._set_status(job, "🔎 Ищу трек...")
+        await self._set_status(job, "Ищу...")
         try:
             track = await asyncio.to_thread(search_track, job.query)
         except TrackNotFoundError:
