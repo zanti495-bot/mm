@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+import static_ffmpeg
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
@@ -14,6 +15,7 @@ async def main() -> None:
     if not BOT_TOKEN or BOT_TOKEN == "PASTE_YOUR_TELEGRAM_BOT_TOKEN_HERE":
         raise RuntimeError("Укажи токен бота в переменной BOT_TOKEN файла .env.")
 
+    await asyncio.to_thread(static_ffmpeg.add_paths, weak=True)
     await initialize()
     bot = Bot(token=BOT_TOKEN)
     download_queue = DownloadQueue(bot)
